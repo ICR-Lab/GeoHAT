@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoHAT: Geometry-Adaptive Hybrid Action Transformer for Mobile Manipulation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #0ea5e9;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --max-width: 1000px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 40px;
+            text-align: center;
+            background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%);
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .hero h1 span {
+            color: var(--text);
+        }
+
+        .venue {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .authors {
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .authors a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .authors sup {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .affiliations {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* Link Buttons */
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 24px;
+            min-width: 140px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-icon {
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        /* Sections */
+        section {
+            padding: 48px 0;
+        }
+
+        section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        /* Abstract */
+        .abstract-content {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text);
+            text-align: justify;
+        }
+
+        /* Figures */
+        .figure-section {
+            text-align: center;
+        }
+
+        .figure-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 16px;
+        }
+
+        .figure-caption {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0 auto;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Videos */
+        .video-row-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            text-align: left;
+            color: var(--text);
+        }
+
+        .video-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .video-item {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .video-item:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-item video {
+            width: 100%;
+            border-radius: var(--radius);
+            display: block;
+        }
+
+        .video-item video::-webkit-media-controls-volume-slider,
+        .video-item video::-webkit-media-controls-mute-button {
+            display: none !important;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .video-placeholder i {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            opacity: 0.6;
+        }
+
+        .video-label {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            color: var(--text);
+        }
+
+        /* Results Highlight */
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius);
+            padding: 24px 32px;
+            text-align: center;
+            margin: 32px 0;
+        }
+
+        .highlight-box .stat {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .highlight-box .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        /* BibTeX */
+        .bibtex-section {
+            background: var(--bg-alt);
+            border-radius: var(--radius);
+            padding: 24px;
+            position: relative;
+        }
+
+        .bibtex-code {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+            color: var(--text);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .video-grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1><span>GeoHAT</span>: Geometry-Adaptive Hybrid Action<br>Transformer for Mobile Manipulation</h1>
+            <p class="authors">
+                Anonymous Authors
+            </p>
+            <p class="affiliations">
+            </p>
+            <div class="links">
+                <a href="#" class="btn btn-outline"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor"><path d="M96 32C78.3 32 64 46.3 64 64v384c0 17.7 14.3 32 32 32h320c17.7 0 32-14.3 32-32V160H336c-17.7 0-32-14.3-32-32V32H96zm208 0v96h96L304 32zM152 272h208c8.8 0 16 7.2 16 16s-7.2 16-16 16H152c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h208c8.8 0 16 7.2 16 16s-7.2 16-16 16H152c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h208c8.8 0 16 7.2 16 16s-7.2 16-16 16H152c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg> Paper</a>
+                <a href="https://github.com/XiangyuZhu0995/GeoHAT" target="_blank" class="btn btn-outline"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" width="18" height="18" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg> Code</a>
+                <a href="https://www.youtube.com/watch?v=rqo1u7kcMUc&t=1s" target="_blank" class="btn btn-outline"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="18" height="18" fill="currentColor"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg> Video</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Abstract -->
+    <section>
+        <div class="container">
+            <h2>Abstract</h2>
+            <div class="abstract-content">
+                Whole-body mobile manipulation requires coordinating mobile base and manipulator under shifting viewpoints, posing challenges in geometric perception and action generation. Current policies either rely on 2D features or sparse 3D representations that lack dense spatial structure, and typically encode arm and base within one action vector that ignores their distinct control demands. Moreover, existing dense fusion strategies risk corrupting pretrained representations under noisy depth while incurring heavy computational overhead. We present <strong>GeoHAT</strong>, an end-to-end diffusion-based framework built on a simple principle: geometry should be injected only where reliable and attended to only where needed. GeoHAT employs a lightweight Fourier spatial encoder that maps dense per-pixel 3D coordinates into geometric tokens without an additional 3D vision backbone. These tokens are then selectively injected into vision foundation model features through per-token gated fusion modulated by depth validity, preserving the semantic prior while enriching spatial understanding. For action generation, a Hybrid Whole-Body Action Decoder decomposes arm and base into distinct subspaces and lets each action modality attend to its task-relevant visual context through sparse cross-attention, while causal temporal modeling captures intra-timestep coordination and inter-timestep dependencies. Experiments on the ManiSkill-HAB simulation benchmark demonstrate that GeoHAT achieves a 79.3% mean success rate, surpassing the strongest baseline by 23.7%. Furthermore, real-world experiments on diverse tasks also confirm consistent improvements over all baselines.
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview (Teaser) -->
+    <section class="figure-section">
+        <div class="container">
+            <h2>Overview</h2>
+            <img src="figures/Teaser.png" alt="GeoHAT Teaser Figure">
+            <p class="figure-caption">
+                <strong>Overview of GeoHAT.</strong>
+                <em>Left:</em> GeoHAT fuses multi-view RGB features with PointMap features through reliability-aware gated fusion, and then predicts coordinated arm-base actions with a hybrid whole-body decoder. This design injects geometry only where reliable and routes visual context to the action subspaces that need it. <em>Middle:</em> Simulation and real-world mobile manipulation tasks used for evaluation. <em>Right:</em> Success rates showing strong performance in both simulation and real-world deployment.
+            </p>
+        </div>
+    </section>
+
+    <!-- Method -->
+    <section class="figure-section">
+        <div class="container">
+            <h2>Method</h2>
+            <img src="figures/Overview.png" alt="GeoHAT Method Overview">
+            <p class="figure-caption">
+                <strong>Architecture of GeoHAT.</strong> Patch-aligned PointMap coordinates are encoded via a Fourier MLP and selectively fused into DINOv2 features through per-token gating modulated by depth confidence (<em>left</em>). The hybrid action decoder interleaves arm and base tokens, applies query-level Top-K cross-attention for subspace-specific visual grounding, and uses causal self-attention for temporal coordination (<em>right</em>).
+            </p>
+        </div>
+    </section>
+
+    <!-- Videos -->
+    <section>
+        <div class="container">
+            <h2>Real World Performance</h2>
+
+            <!-- Row 1: Pick and Place -->
+            <div class="video-row-title">Pick and Place</div>
+            <div class="video-grid-3">
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/pick_and_place/dp.mp4" type="video/mp4"></video>
+                    <div class="video-label">DP</div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/pick_and_place/pi0.mp4" type="video/mp4"></video>
+                    <div class="video-label">&pi;<sub>0</sub></div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/pick_and_place/ours.mp4" type="video/mp4"></video>
+                    <div class="video-label">Ours</div>
+                </div>
+            </div>
+
+            <!-- Row 2: Drop Rubbish -->
+            <div class="video-row-title">Drop Rubbish</div>
+            <div class="video-grid-3">
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/drop_rubbish/dp.mp4" type="video/mp4"></video>
+                    <div class="video-label">DP</div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/drop_rubbish/pi0.mp4" type="video/mp4"></video>
+                    <div class="video-label">&pi;<sub>0</sub></div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/drop_rubbish/ours.mp4" type="video/mp4"></video>
+                    <div class="video-label">Ours</div>
+                </div>
+            </div>
+
+            <!-- Row 3: Open Drawer -->
+            <div class="video-row-title">Open Drawer</div>
+            <div class="video-grid-3">
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/open_drawer/dp.mp4" type="video/mp4"></video>
+                    <div class="video-label">DP</div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/open_drawer/pi0.mp4" type="video/mp4"></video>
+                    <div class="video-label">&pi;<sub>0</sub></div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/open_drawer/ours.mp4" type="video/mp4"></video>
+                    <div class="video-label">Ours</div>
+                </div>
+            </div>
+
+            <!-- Row 4: Close Drawer -->
+            <div class="video-row-title">Close Drawer</div>
+            <div class="video-grid-3">
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/close_drawer/dp.mp4" type="video/mp4"></video>
+                    <div class="video-label">DP</div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/close_drawer/pi0.mp4" type="video/mp4"></video>
+                    <div class="video-label">&pi;<sub>0</sub></div>
+                </div>
+                <div class="video-item">
+                    <video controls loop muted playsinline><source src="videos/close_drawer/ours.mp4" type="video/mp4"></video>
+                    <div class="video-label">Ours</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+    </footer>
+
+</body>
+</html>
